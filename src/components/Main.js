@@ -1,38 +1,26 @@
 import React from 'react';
 
-function Main() {
-  function handleEditAvatarClick() {
-      document.querySelector('.popup_type_edit-avatar').classList.add('popup_opened');
-  }
-
-  function handleEditProfileClick() {
-    document.querySelector('.popup_type_edit-profile').classList.add('popup_opened');
-  }
-
-  function handleAddCardClick() {
-    document.querySelector('.popup_type_add-card').classList.add('popup_opened');
-  }
-
+function Main(props) {
   return (
     <>
-      <main class="content">
-        <section class="profile">
-          <div class="profile__avatar-container">
-            <img alt="Аватар" class="profile__avatar" />
-            <button onClick={handleEditAvatarClick} type="button" class="profile__edit-button profile__edit-button_type_avatar"></button>
+      <main className="content">
+        <section className="profile">
+          <div className="profile__avatar-container">
+            <img alt="Аватар" className="profile__avatar" />
+            <button onClick={props.onEditAvatar} type="button" className="profile__edit-button profile__edit-button_type_avatar"></button>
           </div>
-          <div class="profile__info">
-            <div class="profile__title-container">
-              <h1 class="profile__title">Somebody</h1>
-              <button onClick={handleEditProfileClick} type="button" class="profile__edit-button profile__edit-button_type_profile"></button>
+          <div className="profile__info">
+            <div className="profile__title-container">
+              <h1 className="profile__title">Somebody</h1>
+              <button onClick={props.onEditProfile} type="button" className="profile__edit-button profile__edit-button_type_profile"></button>
             </div>
-            <p class="profile__subtitle">Doing nothing</p>
+            <p className="profile__subtitle">Doing nothing</p>
           </div>
-          <button onClick={handleAddCardClick} type="button" class="profile__add-button"></button>
+          <button onClick={props.onAddCard} type="button" className="profile__add-button"></button>
         </section>
 
-        <section class="elements">
-          <ul class="elements__list">
+        <section className="elements">
+          <ul className="elements__list">
           </ul>
         </section>
       </main>
