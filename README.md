@@ -1,5 +1,5 @@
 ## Проект "Место" на React в Яндекс.Практикум
-https://thedoft.github.io/mesto-react/index.html
+https://thedoft.github.io/mesto-react
 
 # Описание проекта
 Сервис Mesto: интерактивная страница, где можно изменять данные профиля, добавлять фотографии, удалять их и ставить лайки.
