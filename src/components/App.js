@@ -9,6 +9,8 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddCardPopupOpen, setIsAddCardPopupOpen] = React.useState(false);
+  const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
+  const [selectedCard, setSelectedCard] = React.useState(<></>);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -22,10 +24,17 @@ function App() {
     setIsAddCardPopupOpen(true);
   }
 
+  function handleCardClick(card) {
+    setIsImagePopupOpen(true);
+    setSelectedCard(card);
+  }
+
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddCardPopupOpen(false);
+    setIsImagePopupOpen(false);
+    setSelectedCard(<></>);
   }
 
   return (
@@ -33,9 +42,12 @@ function App() {
       <Header />
       <Main onEditAvatar={handleEditAvatarClick}
         onEditProfile={handleEditProfileClick}
-        onAddCard={handleAddCardClick} />
+        onAddCard={handleAddCardClick}
+        onCardClick={handleCardClick} />
       <Footer />
-      <ImagePopup />
+
+      <ImagePopup onClose={closeAllPopups} card={selectedCard} isOpen={isImagePopupOpen} />
+
       <PopupWithForm onClose={closeAllPopups} name="confirm" title="Вы уверены?" />
 
       <PopupWithForm onClose={closeAllPopups} name="edit-avatar" title="Обновить аватар" isOpen={isEditAvatarPopupOpen}>
@@ -62,20 +74,6 @@ function App() {
           <span className="popup__input-error" id="link-input-error"></span>
         </fieldset>
       </PopupWithForm>
-
-      <template id="element">
-        <li className="element">
-          <img className="element__image" alt="#"/>
-          <div className="element__title-container">
-            <h2 className="element__title"> </h2>
-            <div className="element__likes-container">
-              <button type="button" className="element__like-button"></button>
-              <p className="element__likes-count"></p>
-            </div>
-          </div>
-          <button type="button" className="element__trash-button"></button>
-        </li>
-      </template>
     </>
   );
 }
