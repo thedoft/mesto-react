@@ -3,7 +3,7 @@ import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
-import PopupWithImage from './PopupWithImage';
+import ImagePopup from './ImagePopup';
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
@@ -35,7 +35,7 @@ function App() {
         onEditProfile={handleEditProfileClick}
         onAddCard={handleAddCardClick} />
       <Footer />
-      <PopupWithImage />
+      <ImagePopup />
       <PopupWithForm onClose={closeAllPopups} name="confirm" title="Вы уверены?" />
 
       <PopupWithForm onClose={closeAllPopups} name="edit-avatar" title="Обновить аватар" isOpen={isEditAvatarPopupOpen}>
