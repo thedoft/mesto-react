@@ -18,6 +18,23 @@ function Main(props) {
       });
   });
 
+  function handleCardLike(card) {
+    const isLiked = card.likes.some(user => user._id === currentUser._id);
+
+    isLiked ? api.unlikeCard({ _id: card._id }) : api.likeCard({ _id: card._id });
+  }
+
+  function handleCardDelete(card) {
+    api.deleteCard({ _id: card._id })
+      .then(() => {
+        card.remove();
+        card = null;
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   return (
     <main className="content">
       <section className="profile">
@@ -38,7 +55,7 @@ function Main(props) {
       <section className="elements">
         <ul className="elements__list">
           {cards.map(card => (
-            <Card card={card} key={card._id} onCardClick={props.onCardClick} />
+            <Card card={card} key={card._id} onCardClick={props.onCardClick} onCardLike={handleCardLike} onCardDelete={handleCardDelete} />
           ))}
         </ul>
       </section>

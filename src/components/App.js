@@ -13,12 +13,15 @@ function App() {
   const [isAddCardPopupOpen, setIsAddCardPopupOpen] = React.useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState(<></>);
-  const [currentUser, setCurrentUser] = React.useState();
+  const [currentUser, setCurrentUser] = React.useState({});
 
   React.useEffect(() => {
     api.getUserData()
       .then(userData => {
         setCurrentUser(userData);
+      })
+      .catch(err => {
+        console.log(err);
       });
   });
 
