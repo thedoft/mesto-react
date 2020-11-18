@@ -23,7 +23,7 @@ function App() {
       .catch(err => {
         console.log(err);
       });
-  });
+  }, []);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);

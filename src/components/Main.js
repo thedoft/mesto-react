@@ -16,19 +16,26 @@ function Main(props) {
       .catch(err => {
         console.log(err);
       });
-  });
+  }, []);
 
   function handleCardLike(card) {
     const isLiked = card.likes.some(user => user._id === currentUser._id);
 
-    isLiked ? api.unlikeCard({ _id: card._id }) : api.likeCard({ _id: card._id });
+    api.changeLikeCardStatus({ _id: card._id}, (isLiked ? 'DELETE' : 'PUT'))
+      .then(newCard => {
+        const newCards = cards.map(c => c._id === card._id ? newCard : c);
+        setCards(newCards);
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
 
   function handleCardDelete(card) {
     api.deleteCard({ _id: card._id })
       .then(() => {
-        card.remove();
-        card = null;
+        const newCards = cards.filter(c => c._id !== card._id);
+        setCards(newCards);
       })
       .catch(err => {
         console.log(err);

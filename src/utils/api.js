@@ -81,19 +81,9 @@ class Api {
     });
   }
 
-  likeCard({ _id }) {
+  changeLikeCardStatus({ _id }, method) {
     return fetch(`${this._url}/cards/likes/${_id}`, {
-      method: 'PUT',
-      headers: this._headers,
-    })
-    .then(res => {
-      return this._handlePromiseRes(res);
-    });
-  }
-
-  unlikeCard({ _id }) {
-    return fetch(`${this._url}/cards/likes/${_id}`, {
-      method: 'DELETE',
+      method: method,
       headers: this._headers,
     })
     .then(res => {
