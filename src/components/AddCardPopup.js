@@ -19,7 +19,7 @@ function AddCardPopup(props) {
   }
 
   return (
-    <PopupWithForm onSubmit={handleSubmit} onClose={props.onClose} name="add-card" title="Новое место" isOpen={props.isOpen}>
+    <PopupWithForm onSubmit={handleSubmit} onClose={props.onClose} name="add-card" title="Новое место" isOpen={props.isOpen} isLoading={props.isLoading}>
       <fieldset className="popup__info">
         <input value={name || ''} onChange={handleNameChange} name="place-input" type="text" className="popup__input popup__input_type_place"  placeholder = 'Название' required minLength="1" maxLength="30" />
         <span className="popup__input-error" id="place-input-error" />

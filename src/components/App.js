@@ -2,7 +2,6 @@ import React from 'react';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
-import PopupWithForm from './PopupWithForm';
 import EditAvatarPopup from './EditAvatarPopup';
 import EditProfilePopup from './EditProfilePopup';
 import AddCardPopup from './AddCardPopup';
@@ -18,6 +17,7 @@ function App() {
   const [selectedCard, setSelectedCard] = React.useState(<></>);
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   React.useEffect(() => {
     api.getUserData()
@@ -89,6 +89,8 @@ function App() {
   }
 
   function handleUpdateUser({ name, about }) {
+    setIsLoading(true);
+
     api.patchUserProfile({ name, about })
       .then(userData => {
         setCurrentUser(userData);
@@ -96,10 +98,15 @@ function App() {
       })
       .catch(err => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }
 
   function handleUpdateAvatar({ avatar }) {
+    setIsLoading(true);
+
     api.patchUserAvatar({ avatar })
       .then(userData => {
         setCurrentUser(userData);
@@ -107,10 +114,15 @@ function App() {
       })
       .catch(err => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }
 
   function handleAddCard({ name, link }) {
+    setIsLoading(true);
+
     api.addNewCard({ name, link })
       .then(newCard => {
         setCards([newCard, ...cards]);
@@ -118,6 +130,9 @@ function App() {
       })
       .catch(err => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }
 
@@ -135,13 +150,20 @@ function App() {
 
       <ImagePopup onClose={closeAllPopups} card={selectedCard} isOpen={isImagePopupOpen} />
 
-      <PopupWithForm onClose={closeAllPopups} name="confirm" title="Вы уверены?" />
+      <EditAvatarPopup isOpen={isEditAvatarPopupOpen}
+        onClose={closeAllPopups}
+        onUpdateAvatar={handleUpdateAvatar}
+        isLoading={isLoading} />
 
-      <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
+      <EditProfilePopup isOpen={isEditProfilePopupOpen}
+        onClose={closeAllPopups}
+        onUpdateUser={handleUpdateUser}
+        isLoading={isLoading} />
 
-      <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
-
-      <AddCardPopup isOpen={isAddCardPopupOpen} onClose={closeAllPopups} onAddCard={handleAddCard} />
+      <AddCardPopup isOpen={isAddCardPopupOpen}
+        onClose={closeAllPopups}
+        onAddCard={handleAddCard}
+        isLoading={isLoading} />
     </CurrentUserContext.Provider>
   );
 }

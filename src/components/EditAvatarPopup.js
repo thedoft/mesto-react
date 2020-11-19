@@ -10,7 +10,7 @@ function EditAvatarPopup(props) {
   }
 
   return (
-    <PopupWithForm onSubmit={handleSubmit} onClose={props.onClose} name="edit-avatar" title="Обновить аватар" isOpen={props.isOpen}>
+    <PopupWithForm onSubmit={handleSubmit} onClose={props.onClose} name="edit-avatar" title="Обновить аватар" isOpen={props.isOpen} isLoading={props.isLoading}>
       <fieldset className="popup__info">
         <input ref={avatar} name="avatar-input" type="url" className="popup__input popup__input_type_avatar" placeholder="Ссылка на картинку" required />
         <span className="popup__input-error" id="avatar-input-error" />
