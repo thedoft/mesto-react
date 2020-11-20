@@ -63,6 +63,16 @@ function App() {
       });
   }
 
+  function handleLayoutClick(popup) {
+    popup.addEventListener('mousedown', evt => {
+      evt.target === evt.currentTarget && closeAllPopups();
+    });
+  }
+
+  function handleEscapeClose(evt) {
+    evt.key === 'Escape' && closeAllPopups();
+  }
+
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
   }
@@ -148,21 +158,31 @@ function App() {
         onCardDelete={handleCardDelete} />
       <Footer />
 
-      <ImagePopup onClose={closeAllPopups} card={selectedCard} isOpen={isImagePopupOpen} />
+      <ImagePopup isOpen={isImagePopupOpen}
+      onClose={closeAllPopups}
+      card={selectedCard}
+      onLayout={handleLayoutClick}
+      onEscape={handleEscapeClose} />
 
       <EditAvatarPopup isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
         onUpdateAvatar={handleUpdateAvatar}
+        onLayout={handleLayoutClick}
+        onEscape={handleEscapeClose}
         isLoading={isLoading} />
 
       <EditProfilePopup isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
         onUpdateUser={handleUpdateUser}
+        onLayout={handleLayoutClick}
+        onEscape={handleEscapeClose}
         isLoading={isLoading} />
 
       <AddCardPopup isOpen={isAddCardPopupOpen}
         onClose={closeAllPopups}
         onAddCard={handleAddCard}
+        onLayout={handleLayoutClick}
+        onEscape={handleEscapeClose}
         isLoading={isLoading} />
     </CurrentUserContext.Provider>
   );
