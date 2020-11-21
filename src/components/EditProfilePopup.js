@@ -10,7 +10,7 @@ function EditProfilePopup(props) {
   React.useEffect(() => {
     setName(currentUser.name);
     setAbout(currentUser.about);
-  }, [currentUser]);
+  }, [currentUser, props.isOpen]);
 
   React.useEffect(() => {
     props.isOpen && document.addEventListener('keyup', props.onEscape);
@@ -34,7 +34,7 @@ function EditProfilePopup(props) {
   }
 
   return (
-    <PopupWithForm onSubmit={handleSubmit} onClose={props.onClose} onLayout={props.onLayout} name="edit-profile" title="Редактирование профиля" isOpen={props.isOpen} isLoading={props.isLoading}>
+    <PopupWithForm onSubmit={handleSubmit} onClose={props.onClose} onLayout={props.onLayout} name="edit-profile" title="Редактирование профиля" isOpen={props.isOpen} isLoading={props.isLoading} buttonText='Сохранить' buttonLoadingText='Сохранение...'>
       <fieldset className="popup__info">
         <input value={name || ''} onChange={handleNameChange} name="name-input" type="text" className="popup__input popup__input_type_name" placeholder="Имя" required minLength="2" maxLength="40" />
         <span className="popup__input-error" id="name-input-error" />

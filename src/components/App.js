@@ -6,6 +6,7 @@ import EditAvatarPopup from './EditAvatarPopup';
 import EditProfilePopup from './EditProfilePopup';
 import AddCardPopup from './AddCardPopup';
 import ImagePopup from './ImagePopup';
+import ConfirmPopup from './ConfirmPopup';
 import { api } from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
@@ -14,6 +15,7 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddCardPopupOpen, setIsAddCardPopupOpen] = React.useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
+  const [isConfirmPopupOpen, setIsConfirmPopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState(<></>);
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
@@ -39,7 +41,7 @@ function App() {
       });
   }, []);
 
-  function handleCardLike(card) {
+  function handleCardLikeClick(card) {
     const isLiked = card.likes.some(user => user._id === currentUser._id);
 
     api.changeLikeCardStatus({ _id: card._id}, (isLiked ? 'DELETE' : 'PUT'))
@@ -52,15 +54,26 @@ function App() {
       });
   }
 
+  function handleCardDeleteClick(card) {
+    setIsConfirmPopupOpen(true);
+    setSelectedCard(card);
+  }
+
   function handleCardDelete(card) {
+    setIsLoading(true);
+
     api.deleteCard({ _id: card._id })
-      .then(() => {
-        const newCards = cards.filter(c => c._id !== card._id);
-        setCards(newCards);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    .then(() => {
+      const newCards = cards.filter(c => c._id !== card._id);
+      setCards(newCards);
+      closeAllPopups();
+    })
+    .catch(err => {
+      console.log(err);
+    })
+    .finally(() => {
+      setIsLoading(false);
+    });
   }
 
   function handleLayoutClick(popup) {
@@ -95,7 +108,7 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddCardPopupOpen(false);
     setIsImagePopupOpen(false);
-    setSelectedCard(<></>);
+    setIsConfirmPopupOpen(false);
   }
 
   function handleUpdateUser({ name, about }) {
@@ -154,8 +167,8 @@ function App() {
         onAddCard={handleAddCardClick}
         onCardClick={handleCardClick}
         cards={cards}
-        onCardLike={handleCardLike}
-        onCardDelete={handleCardDelete} />
+        onCardLike={handleCardLikeClick}
+        onCardDelete={handleCardDeleteClick} />
       <Footer />
 
       <ImagePopup isOpen={isImagePopupOpen}
@@ -184,6 +197,14 @@ function App() {
         onLayout={handleLayoutClick}
         onEscape={handleEscapeClose}
         isLoading={isLoading} />
+
+      <ConfirmPopup card={selectedCard}
+      onConfirm={handleCardDelete}
+      isOpen={isConfirmPopupOpen}
+      onClose={closeAllPopups}
+      onLayout={handleLayoutClick}
+      onEscape={handleEscapeClose}
+      isLoading={isLoading} />
     </CurrentUserContext.Provider>
   );
 }

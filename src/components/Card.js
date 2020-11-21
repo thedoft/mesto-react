@@ -36,7 +36,7 @@ function Card(props) {
           <p className="element__likes-count">{card.likes.length}</p>
         </div>
       </div>
-      <button type="button" className={cardTrashButtonClassName} onClick={handleDeleteClick}/>
+      <button type="button" className={cardTrashButtonClassName} onClick={handleDeleteClick} />
     </li>
   )
 }

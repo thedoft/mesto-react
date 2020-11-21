@@ -5,6 +5,7 @@ function EditAvatarPopup(props) {
   const avatar = React.useRef();
 
   React.useEffect(() => {
+    avatar.current.value = '';
     props.isOpen && document.addEventListener('keyup', props.onEscape);
 
     return () => {
@@ -18,7 +19,7 @@ function EditAvatarPopup(props) {
   }
 
   return (
-    <PopupWithForm onSubmit={handleSubmit} onClose={props.onClose} onLayout={props.onLayout} name="edit-avatar" title="Обновить аватар" isOpen={props.isOpen} isLoading={props.isLoading}>
+    <PopupWithForm onSubmit={handleSubmit} onClose={props.onClose} onLayout={props.onLayout} name="edit-avatar" title="Обновить аватар" isOpen={props.isOpen} isLoading={props.isLoading} buttonText='Обновить' buttonLoadingText='Обновление...'>
       <fieldset className="popup__info">
         <input ref={avatar} name="avatar-input" type="url" className="popup__input popup__input_type_avatar" placeholder="Ссылка на картинку" required />
         <span className="popup__input-error" id="avatar-input-error" />
